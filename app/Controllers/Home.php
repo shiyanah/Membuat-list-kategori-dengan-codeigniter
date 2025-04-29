@@ -6,38 +6,61 @@ class Home extends BaseController
 {
     public function index()
     {
-        return view('welcome_message');
+        echo view('layout/header');
+        echo view('layout/sidebar');
+        echo view('content/data');
+        echo view('layout/footer');
+    }
+
+    public function hello($name = null)
+    {
+        $data['nama'] = $name;
+        $data['title'] = "Judul halaman";
+        return view('front', $data);
     }
 
     public function produk()
     {
-        return view('content/produk');
+        $data = [
+            'title' => 'Produk'
+        ];
+        echo view('layout/header', $data);
+        echo view('layout/sidebar');
+        echo view('content/produk');
+        echo view('layout/footer');
     }
 
     public function kategori($id = null)
     {
-        $data['kat'] = [
-            1 => 'Snack',
-            2 => 'Makanan',
-            3 => 'Minuman',
-            4 => 'Bumbu dapur',
-            5 => 'Alat Tulis'
+        $data = [
+            'kat' => [
+                'Alat Tulis',
+                'Pakaian',
+                'Minuman',
+                'Elektronik',
+                'Snack'
+            ],
         ];
-
-        $kat = $data['kat'];
-           // Jika ID kategori diberikan, tampilkan kategori yang sesuai
-        if ($id !== null) {
-            echo "<h1> " . ($kat[$id] ?? 'Kategori tidak ditemukan') . "</h1>";
-           // echo "<a href='/kategori'>Kembali ke halaman kategori</a>";
-            // Jika tidak ada ID yang diberikan, tampilkan semua kategori
+        $meta = ['title' => 'Kategori'];
+        if (!is_null($id)) {
+            echo $data['kat'][$id];
         } else {
-            echo "<h1>Ini adalah halaman kategori</h1>";
-            echo "<ul>";
-            foreach ($kat as $key => $value) {
-                echo "<li><a href='/kategori/$key'>$value</a></li>";
-            }
-            echo "</ul>";
+            echo view('layout/header', $meta);
+            echo view('layout/sidebar');
+            echo view('content/kategori', $data);
+            echo view('layout/footer');
         }
-        
+    }
+    public function password()
+    {
+        echo view('Views/hash');
+    }
+    public function profile()
+    {
+        echo view('layout/profile');
+    }
+    public function faq()
+    {
+        echo view('layout/faq');
     }
 }
